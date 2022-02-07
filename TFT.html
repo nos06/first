@@ -8,26 +8,25 @@
     <title>TFT 정보집이 될 예정인 사이트</title>
 
     <style>
-
+        .org { text-align: center;}
     </style>
 </head>
 
 <body>
-<input id="night_day" type="button" value="night" onclick="
-if(document.querySelector('#night_day').value === 'night') {
-document.querySelector('body').style.backgroundColor = 'black';
-    document.querySelector('body').style.color = 'white';
-    document.querySelector('#night_day').value = 'day';
-} else {
-    document.querySelector('body').style.backgroundColor = 'white';
-document.querySelector('body').style.color = 'black';
-document.querySelector('#night_day').value = 'night';
-}
-">
-
-
-
-    <p>난 롤체 만들거임ㅋㅋ</p>
+    <div class="org">
+        <input type="image" id="night_day"
+            src="https://w.namu.la/s/e4b83045c49bb953f152004b90eb029aa5f6a0962bf389f000f4a6994717c04ad5ee5d8c344a2825c117c52e28792f25997c7934fd9de5679c7bdbd5287cba5c3aa44549adec8bc12afadb0ece181fea82faef388824a7a07c27e0d87fe354bf"
+            height="170" width="170" onclick="if(document.querySelector('#night_day').value === 'night') {
+    document.querySelector('body').style.backgroundColor = 'black';
+        document.querySelector('body').style.color = 'white';
+        document.querySelector('#night_day  ').value = 'day';
+    } else {
+        document.querySelector('body').style.backgroundColor = 'white';
+    document.querySelector('body').style.color = 'black';
+    document.querySelector('#night_day').value = 'night';
+    }" />
+    </div>
+    
 </body>
 
 </html>
