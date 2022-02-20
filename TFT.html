@@ -8,25 +8,49 @@
     <title>TFT 정보집이 될 예정인 사이트</title>
 
     <style>
-        .org { text-align: center;}
+        .org {
+            text-align: center;
+        }
     </style>
 </head>
 
 <body>
     <div class="org">
         <input type="image" id="night_day"
-            src="https://w.namu.la/s/e4b83045c49bb953f152004b90eb029aa5f6a0962bf389f000f4a6994717c04ad5ee5d8c344a2825c117c52e28792f25997c7934fd9de5679c7bdbd5287cba5c3aa44549adec8bc12afadb0ece181fea82faef388824a7a07c27e0d87fe354bf"
-            height="170" width="170" onclick="if(document.querySelector('#night_day').value === 'night') {
-    document.querySelector('body').style.backgroundColor = 'black';
-        document.querySelector('body').style.color = 'white';
-        document.querySelector('#night_day  ').value = 'day';
-    } else {
-        document.querySelector('body').style.backgroundColor = 'white';
-    document.querySelector('body').style.color = 'black';
-    document.querySelector('#night_day').value = 'night';
-    }" />
+        src="https://w.namu.la/s/e4b83045c49bb953f152004b90eb029aa5f6a0962bf389f000f4a6994717c04ad5ee5d8c344a2825c117c52e28792f25997c7934fd9de5679c7bdbd5287cba5c3aa44549adec8bc12afadb0ece181fea82faef388824a7a07c27e0d87fe354bf"
+        height="170" width="170" onclick="if(document.querySelector('#night_day').value === 'night') {
+document.querySelector('body').style.backgroundColor = 'black';
+    document.querySelector('body').style.color = 'white';
+    document.querySelector('#night_day  ').value = 'day';
+} else {
+    document.querySelector('body').style.backgroundColor = 'white';
+document.querySelector('body').style.color = 'black';
+document.querySelector('#night_day').value = 'night';
+}" />
     </div>
-    
-</body>
 
-</html>
+<script>
+    function OnePlsOne(){
+        document.write(1+1+ '<br>');
+    }
+    OnePlsOne;
+    function sum(a, b){
+document.write(a+b+'<br>');
+    }
+function sumColorRed(a, b)
+{
+    document.write('div style="color:red'> +a+b+'</div><br>');
+}
+</script>
+<input type="number" onclick="alert('첫 번째 숫자를 입력하세요')" value="a">
+<input type="number" onclick="alert('두 번째 숫자를 입력하세요')" value="b">
+
+<h2>return</h2>
+<script>
+function sum2(a, b){
+    return a+b;
+}
+document.write(sum2(a,b)+'<br>');
+</script>
+
+<p>위에 적힌 숫자를 더해가지고 출력하는 거 만들고 싶은데 어케하는 건지 모르겠음</p>
