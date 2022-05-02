@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>공부정리사이트</title>
+  </head>
+  <body>
+    <h1>한삼고 2학년 1학기 기말고사</h1><br>
+    <h2 class="first">영어</h2>
+    <div class="grid"><div></div>
+      <div>
+        <iframe class="iii" width="560" height="315" src="https://www.youtube.com/embed/yhZAIA8TiC8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div><div></div>
+      <div>
+
+      </div><div></div>
+    </div>
+    <br><br>
+    <div class="grid"><div></div>
+      <div>
+
+      </div><div></div>
+      <div>
+
+      </div><div></div>
+    </div>
+    <br><br>
+    <div class="grid"><div></div>
+      <div>
+
+      </div><div></div>
+      <div>
+
+      </div><div></div>
+    </div>
+
+    <h2 class="second">문학</h2>
+    <div class="grid"><div></div>
+      <div>
+        <iframe class="iii" width="560" height="315" src="https://www.youtube.com/embed/yhZAIA8TiC8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div><div></div>
+      <div>
+
+      </div><div></div>
+    </div>
+    <br><br>
+    <div class="grid"><div></div>
+      <div>
+
+      </div><div></div>
+      <div>
+
+      </div><div></div>
+    </div>
+    <br><br>
+    <div class="grid"><div></div>
+      <div>
+
+      </div><div></div>
+      <div>
+
+      </div><div></div>
+    </div>
+
+    <style>
+      h2 {
+        text-align:center;
+        font-size:35px;
+        padding: 7px;
+        margin-left:100px;
+        margin-right:100px;
+      }
+      .first {
+        border: 3px red solid;
+      }
+      .second {
+        border: 3px blue solid;
+      }
+      h1 {
+        font-size: 50px;
+        text-align:center;
+        border:3px transparent solid;
+        border-radius: 20px;
+        background-image: linear-gradient(#FFFFFF, #FFFFFF), linear-gradient(to right, #DEFFC7, #C7FFF3, #C8C7FF, #F9C7FF);
+        background-origin: border-box;
+        background-clip: content-box, border-box;
+        padding:10px;
+        margin:10px;
+      }
+      .grid {
+      display:grid;
+      grid-template-columns:100px 1fr 100px 1fr 100px;
+    }
+      iframe {
+      position: absolute;
+      top: -210px;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      }
+      .iii {
+        position: relative;
+        width: 100%;
+        heigth: auto;
+        padding-top: 40%
+      }
+    </style>
+  </body>
+</html>
