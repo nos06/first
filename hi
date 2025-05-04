@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>나의 학습 현황</title>
+    <style>
+        body { font-family: '맑은 고딕', Arial, sans-serif; background: #f9f9f9; color: #222; }
+        .container { max-width: 600px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);}
+        h2 { color: #1976d2; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        ul { list-style: none; padding: 0; }
+        li { margin-bottom: 10px; }
+        .section { margin-bottom: 28px; }
+        .badge-list span { background: #1976d2; color: #fff; border-radius: 12px; padding: 4px 12px; margin-right: 6px; font-size: 0.95em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>나의 활동수(회)</h2>
+        <div class="section">
+            <ul>
+                <li>강의 수강 후 숙제 작성만 인정</li>
+            </ul>
+        </div>
+        
+        <h2>역량진단</h2>
+        <div class="section">
+            <ul>
+                <li>수강하기 전에 한번, 수강하고 나서 한번</li>
+            </ul>
+        </div>
+        
+        <h2>나의 학습 현황</h2>
+        <div class="section">
+            <ul>
+                <li>수강 강의 수: <strong>0</strong></li>
+                <li>과제 제출률: <strong>0%</strong></li>
+                <li>평균 진도율: <strong>0%</strong></li>
+            </ul>
+        </div>
+        
+        <h2>역량 진단 추이</h2>
+        <div class="section">
+            <ul>
+                <li>전/후 변화 점수 차이: <strong>0점</strong></li>
+            </ul>
+        </div>
+        
+        <h2>과제 제출 기록</h2>
+        <div class="section">
+            <ul>
+                <li>제출 완료: <strong>0개</strong></li>
+                <li>미제출: <strong>0개</strong></li>
+            </ul>
+        </div>
+        
+        <h2>내 뱃지 &amp; 포인트</h2>
+        <div class="section">
+            <ul>
+                <li>총 에듀포인트: <strong>0P</strong></li>
+                <li>획득 뱃지: 
+                    <span class="badge-list">
+                        <!-- 예시 뱃지 -->
+                        <span>초급완료</span>
+                        <span>출석왕</span>
+                        <!-- 뱃지가 없으면 아래처럼 표시 -->
+                        <!-- <span>없음</span> -->
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
