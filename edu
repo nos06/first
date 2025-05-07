@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>나의 학습 현황</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f6f9;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .section {
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .section h2 {
+      margin-top: 0;
+      color: #555;
+    }
+
+    .info {
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .highlight {
+      font-weight: bold;
+      color: #2d89ef;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>나의 학습 현황</h1>
+
+    <div class="section">
+      <h2>수강 정보</h2>
+      <div class="info">
+        수강 강의 수: <span class="highlight">5</span><br>
+        과제 제출률: <span class="highlight">80%</span><br>
+        평균 진도율: <span class="highlight">65%</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>역량 진단 추이</h2>
+      <div class="info">
+        전/후 변화 점수 차이: <span class="highlight">+15점</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>과제 제출 기록</h2>
+      <div class="info">
+        제출 완료: <span class="highlight">8</span><br>
+        미제출: <span class="highlight">2</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>내 뱃지 & 포인트</h2>
+      <div class="info">
+        총 에듀포인트: <span class="highlight">1500P</span><br>
+        획득 뱃지: <span class="highlight">3개</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
