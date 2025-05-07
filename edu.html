@@ -7,21 +7,20 @@
     body {
       font-family: 'Arial', sans-serif;
       background-color: #f0f4f8;
-      color: #333;
       margin: 0;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      color: #005bac;
+      padding: 0;
     }
     .container {
       max-width: 900px;
-      margin: auto;
+      margin: 100px auto;
       background-color: white;
       padding: 30px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #005bac;
     }
     .section {
       margin-bottom: 30px;
@@ -34,66 +33,104 @@
       margin: 10px 0;
       font-size: 16px;
     }
-    .popup-button {
-      padding: 10px 20px;
-      background-color: #005bac;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
+
+    /* 팝업 스타일 */
+    #popup {
+      display: none;
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translate(-50%, -20%);
+      background-color: white;
+      border: 2px solid #005bac;
+      z-index: 1000;
+      width: 400px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      border-radius: 8px;
     }
-    .popup-button:hover {
-      background-color: #004080;
+    #popup img {
+      width: 100%;
+      border-bottom: 1px solid #ccc;
+    }
+    #popup .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+    }
+    #popup .footer label {
+      font-size: 14px;
+    }
+    #popup .footer button {
+      border: none;
+      background: none;
+      font-size: 16px;
+      cursor: pointer;
+      color: #555;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>📚 나의 학습 현황</h1>
 
-    <div class="section">
-      <h2>학습 현황</h2>
-      <div class="item">수강 강의 수: <strong>5</strong></div>
-      <div class="item">과제 제출률: <strong>90%</strong></div>
-      <div class="item">평균 진도율: <strong>85%</strong></div>
-    </div>
+<div class="container">
+  <h1>📚 나의 학습 현황</h1>
 
-    <div class="section">
-      <h2>역량 진단 추이</h2>
-      <div class="item">전/후 변화 점수 차이: <strong>+12점</strong></div>
-    </div>
-
-    <div class="section">
-      <h2>과제 제출 기록</h2>
-      <div class="item">제출 완료: <strong>18개</strong></div>
-      <div class="item">미제출: <strong>2개</strong></div>
-    </div>
-
-    <div class="section">
-      <h2>내 뱃지 & 포인트</h2>
-      <div class="item">총 에듀포인트: <strong>1,250점</strong></div>
-      <div class="item">획득 뱃지: <strong>6개</strong></div>
-    </div>
-
-    <div class="section">
-      <h2>📸 이미지 팝업</h2>
-      <button class="popup-button" onclick="openPopup()">이미지 보기</button>
-    </div>
+  <div class="section">
+    <h2>학습 현황</h2>
+    <div class="item">수강 강의 수: <strong>5</strong></div>
+    <div class="item">과제 제출률: <strong>90%</strong></div>
+    <div class="item">평균 진도율: <strong>85%</strong></div>
   </div>
 
-  <script>
-    function openPopup() {
-      const imageUrl = "여기에_이미지_URL_넣기.png";  // 여기에 본인이 넣을 이미지 링크로 대체하세요
-      const popup = window.open("", "popupImage", "width=600,height=400");
-      popup.document.write(`
-        <html>
-        <head><title>팝업 이미지</title></head>
-        <body style="margin:0; text-align:center; background:#000;">
-          <img src="${imageUrl}" style="max-width:100%; height:auto;" />
-        </body>
-        </html>
-      `);
+  <div class="section">
+    <h2>역량 진단 추이</h2>
+    <div class="item">전/후 변화 점수 차이: <strong>+12점</strong></div>
+  </div>
+
+  <div class="section">
+    <h2>과제 제출 기록</h2>
+    <div class="item">제출 완료: <strong>18개</strong></div>
+    <div class="item">미제출: <strong>2개</strong></div>
+  </div>
+
+  <div class="section">
+    <h2>내 뱃지 & 포인트</h2>
+    <div class="item">총 에듀포인트: <strong>1,250점</strong></div>
+    <div class="item">획득 뱃지: <strong>6개</strong></div>
+  </div>
+</div>
+
+<!-- 팝업창 -->
+<div id="popup">
+  <img src="여기에_이미지_링크.png" alt="공지 이미지" />
+  <div class="footer">
+    <label><input type="checkbox" id="noShowToday"> 오늘 하루 보지 않기</label>
+    <button onclick="closePopup()">X 닫기</button>
+  </div>
+</div>
+
+<script>
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  }
+
+  function closePopup() {
+    if (document.getElementById("noShowToday").checked) {
+      const expire = new Date();
+      expire.setHours(23, 59, 59); // 오늘 하루만 저장
+      document.cookie = "hidePopup=true; path=/; expires=" + expire.toUTCString();
     }
-  </script>
+    document.getElementById("popup").style.display = "none";
+  }
+
+  window.onload = function () {
+    if (!getCookie("hidePopup")) {
+      document.getElementById("popup").style.display = "block";
+    }
+  };
+</script>
+
 </body>
 </html>
