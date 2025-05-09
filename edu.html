@@ -2,135 +2,138 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>나의 학습 현황</title>
+  <title>EduConnect - 부산 교육 플랫폼</title>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f0f4f8;
+      font-family: 'Pretendard', sans-serif;
       margin: 0;
-      padding: 0;
+      background-color: #f9f9f9;
     }
-    .container {
-      max-width: 900px;
-      margin: 100px auto;
-      background-color: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h1 {
+    header {
+      background-color: #005bac;
+      padding: 20px;
+      color: white;
       text-align: center;
-      color: #005bac;
+    }
+    nav {
+      background-color: #ffffff;
+      padding: 10px 0;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    nav a {
+      margin: 0 20px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+    }
+    .hero {
+      width: 100%;
+      height: 300px;
+      background-color: #ddd;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #555;
+      font-size: 24px;
     }
     .section {
-      margin-bottom: 30px;
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
     }
     .section h2 {
-      border-bottom: 2px solid #005bac;
-      padding-bottom: 5px;
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #005bac;
     }
-    .item {
-      margin: 10px 0;
-      font-size: 16px;
-    }
-
-    /* 팝업 스타일 */
-    #popup {
-      display: none;
-      position: fixed;
-      top: 20%;
-      left: 50%;
-      transform: translate(-50%, -20%);
-      background-color: white;
-      border: 2px solid #005bac;
-      z-index: 1000;
-      width: 400px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      border-radius: 8px;
-    }
-    #popup img {
+    .section img {
       width: 100%;
-      border-bottom: 1px solid #ccc;
+      border-radius: 10px;
+      margin-bottom: 20px;
     }
-    #popup .footer {
+    .cards {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px;
+      flex-wrap: wrap;
+      gap: 20px;
     }
-    #popup .footer label {
-      font-size: 14px;
+    .card {
+      background: white;
+      flex: 1 1 calc(33.333% - 20px);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
-    #popup .footer button {
-      border: none;
-      background: none;
-      font-size: 16px;
-      cursor: pointer;
-      color: #555;
+    .card h3 {
+      color: #333;
+    }
+    footer {
+      background-color: #003e7f;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
     }
   </style>
 </head>
 <body>
 
-<div class="container">
-  <h1>📚 나의 학습 현황</h1>
+<header>
+  <h1>EduConnect | 부산 교육 혁신 플랫폼</h1>
+</header>
 
-  <div class="section">
-    <h2>학습 현황</h2>
-    <div class="item">수강 강의 수: <strong>5</strong></div>
-    <div class="item">과제 제출률: <strong>90%</strong></div>
-    <div class="item">평균 진도율: <strong>85%</strong></div>
-  </div>
+<nav>
+  <a href="#">홈</a>
+  <a href="#">멘토링</a>
+  <a href="#">교육과정</a>
+  <a href="#">프로젝트</a>
+  <a href="#">문의하기</a>
+</nav>
 
-  <div class="section">
-    <h2>역량 진단 추이</h2>
-    <div class="item">전/후 변화 점수 차이: <strong>+12점</strong></div>
-  </div>
+<div class="hero">
+  메인 배너 이미지 영역 (예: 캠페인 슬로건 또는 행사 안내)
+</div>
 
-  <div class="section">
-    <h2>과제 제출 기록</h2>
-    <div class="item">제출 완료: <strong>18개</strong></div>
-    <div class="item">미제출: <strong>2개</strong></div>
-  </div>
-
-  <div class="section">
-    <h2>내 뱃지 & 포인트</h2>
-    <div class="item">총 에듀포인트: <strong>1,250점</strong></div>
-    <div class="item">획득 뱃지: <strong>6개</strong></div>
+<div class="section">
+  <h2>🎓 추천 프로그램</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>중학생 멘토링</h3>
+      <p>기초 학습 & 진로 탐색 멘토링</p>
+      <img src="중학생용_임시이미지.jpg" alt="중학생 프로그램 이미지">
+    </div>
+    <div class="card">
+      <h3>고등학생 멘토링</h3>
+      <p>입시 전략, 대학 정보 제공</p>
+      <img src="고등학생용_임시이미지.jpg" alt="고등학생 프로그램 이미지">
+    </div>
+    <div class="card">
+      <h3>그룹 프로젝트</h3>
+      <p>지역 문제 해결형 활동과 피드백</p>
+      <img src="프로젝트_임시이미지.jpg" alt="그룹 프로젝트 이미지">
+    </div>
   </div>
 </div>
 
-<!-- 팝업창 -->
-<div id="popup">
-  <img src="여기에_이미지_링크.png" alt="공지 이미지" />
-  <div class="footer">
-    <label><input type="checkbox" id="noShowToday"> 오늘 하루 보지 않기</label>
-    <button onclick="closePopup()">X 닫기</button>
-  </div>
+<div class="section">
+  <h2>📸 활동 갤러리</h2>
+  <img src="활동사진1.jpg" alt="활동 이미지 1">
+  <img src="활동사진2.jpg" alt="활동 이미지 2">
 </div>
 
-<script>
-  function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-  }
+<div class="section">
+  <h2>🏅 참여 혜택</h2>
+  <ul>
+    <li>우수 멘티 시상식 및 장학금 제공</li>
+    <li>서울 캠퍼스 탐방 연계 프로그램</li>
+    <li>부산 기업 인턴십 연계</li>
+    <li>멘토링 인증서 및 진로 포트폴리오 제공</li>
+  </ul>
+</div>
 
-  function closePopup() {
-    if (document.getElementById("noShowToday").checked) {
-      const expire = new Date();
-      expire.setHours(23, 59, 59); // 오늘 하루만 저장
-      document.cookie = "hidePopup=true; path=/; expires=" + expire.toUTCString();
-    }
-    document.getElementById("popup").style.display = "none";
-  }
-
-  window.onload = function () {
-    if (!getCookie("hidePopup")) {
-      document.getElementById("popup").style.display = "block";
-    }
-  };
-</script>
+<footer>
+  © 2025 EduConnect | 부산 청소년을 위한 진로 멘토링 플랫폼
+</footer>
 
 </body>
 </html>
