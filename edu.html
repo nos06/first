@@ -74,6 +74,58 @@
       padding: 20px;
       margin-top: 40px;
     }
+    /* 팝업 스타일 */
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background: white;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+  max-width: 400px;
+  position: relative;
+}
+
+.popup-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.popup img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.popup-text {
+  margin-top: 10px;
+}
+
+#dont-show-again {
+  background-color: #005bac;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#dont-show-again:hover {
+  background-color: #003e7f;
+}
   </style>
 </head>
 <body>
@@ -82,6 +134,19 @@
   <h1>EduConnect | 부산 교육 혁신 플랫폼</h1>
 </header>
 
+  <!-- 팝업 창 -->
+<div id="popup" class="popup">
+  <div class="popup-content">
+    <span class="popup-close" id="popup-close">&times;</span>
+    <img src="https://github.com/user-attachments/assets/5956ae37-7fd4-4534-b7dd-8c2f164e68fd" alt="팝업 이미지">
+    <div class="popup-text">
+      <h2>환영합니다! EduConnect에 오신 것을 환영합니다.</h2>
+      <p>서비스에 대해 알아보세요.</p>
+      <button id="dont-show-again">오늘 다시 보지 않기</button>
+    </div>
+  </div>
+</div>
+  
 <nav>
   <a href="#">홈</a>
   <a href="#">멘토링</a>
@@ -134,6 +199,31 @@
 <footer>
   © 2025 EduConnect | 부산 청소년을 위한 진로 멘토링 플랫폼
 </footer>
+
+  <script>
+  // 팝업 창 요소
+  const popup = document.getElementById('popup');
+  const closeButton = document.getElementById('popup-close');
+  const dontShowAgainButton = document.getElementById('dont-show-again');
+
+  // 팝업 창을 표시
+  window.onload = function() {
+    if (!localStorage.getItem('dont-show-popup')) {
+      popup.style.display = 'flex';
+    }
+  }
+
+  // 팝업 닫기 버튼
+  closeButton.onclick = function() {
+    popup.style.display = 'none';
+  }
+
+  // "오늘 다시 보지 않기" 버튼
+  dontShowAgainButton.onclick = function() {
+    localStorage.setItem('dont-show-popup', 'true');
+    popup.style.display = 'none';
+  }
+</script>
 
 </body>
 </html>
