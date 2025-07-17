@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>ESBI 성향 테스트</title>
 <link rel="icon" href="https://github.com/user-attachments/assets/3975983b-a76e-4a1a-8cae-ceba6c03b857" type="image/png" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
   body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 700px; margin: auto; padding: 20px; background: #f9f9f9; color: #333; }
   h1 { text-align: center; margin-bottom: 30px; color: #2c3e50; }
@@ -20,6 +21,9 @@
   button { display: block; margin: 30px auto; padding: 12px 28px; font-size: 1.1em; border: none; background: #4caf50; color: white; border-radius: 6px; cursor: pointer; transition: background 0.3s ease; }
   button:hover { background: #45a049; }
   footer { text-align:center; font-size:0.85em; color:#888; margin-top:40px; padding-top: 20px; border-top: 1px solid #eee; }
+  /* 차트 컨테이너 스타일 */
+  .chart-container { width: 100%; max-width: 450px; margin: 20px auto; } /* 가로 폭을 약간 늘림 */
+  canvas { background: white; border-radius: 8px; padding: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 </style>
 </head>
 <body>
@@ -251,7 +255,11 @@
 <button type="submit">결과 보기</button>
 </form>
 
-<div id="result"></div>
+<div id="result">
+  <div class="chart-container">
+    <canvas id="esbiChart"></canvas>
+  </div>
+</div>
 
 <script>
   // 질문별 가중치 (각 질문은 모든 사분면에 영향을 미침)
@@ -341,6 +349,8 @@
     }
   };
 
+  let esbiChart; // 차트 인스턴스를 저장할 변수
+
   document.getElementById('quizForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
@@ -348,13 +358,11 @@
     const formData = new FormData(this);
 
     for (const [key, value] of formData.entries()) {
-      const questionNum = parseInt(key.replace('q', '')); // 'q1' -> 1
       const answerValue = parseInt(value, 10); // 1~5점
       const weights = questionWeights[key];
 
-      // 각 사분면 점수에 가중치를 적용하여 합산
       // 답변 값 1~5를 -2~+2로 변환 (3점은 0)
-      const adjustedValue = answerValue - 3; // 1->-2, 2->-1, 3->0, 4->1, 5->2
+      const adjustedValue = answerValue - 3; 
 
       if (weights) {
         scores.E += adjustedValue * weights.E;
@@ -366,26 +374,19 @@
 
     // 최고 점수 카테고리 찾기
     let maxCat = null;
-    let maxScore = -Infinity; // 초기값을 음의 무한대로 설정
+    let maxScore = -Infinity; 
 
     for (const cat in scores) {
         if (scores[cat] > maxScore) {
             maxScore = scores[cat];
             maxCat = cat;
-        } else if (scores[cat] === maxScore) {
-            // 점수가 같을 경우, 알파벳 순서(E-S-B-I)로 우선순위 지정 (선택 사항)
-            // 여기서는 E > S > B > I 순으로 우선순위를 부여할 수 있습니다.
-            // if (cat === 'E') maxCat = 'E';
-            // else if (cat === 'S' && maxCat !== 'E') maxCat = 'S';
-            // else if (cat === 'B' && maxCat !== 'E' && maxCat !== 'S') maxCat = 'B';
-            // else if (cat === 'I' && maxCat !== 'E' && maxCat !== 'S' && maxCat !== 'B') maxCat = 'I';
-            // 현재는 먼저 발견된 최고점 유지. 필요시 위 로직 추가.
         }
     }
 
     // 결과 표시
     const resultDiv = document.getElementById('result');
     let resultHTML = `<h2>당신의 ESBI 성향 분석 결과는!</h2>`;
+    resultHTML += `<div class="chart-container"><canvas id="esbiChart"></canvas></div>`;
 
     if (maxCat) {
       const mainCategory = categoryDescriptions[maxCat];
@@ -398,13 +399,105 @@
     // 상세 점수 표시
     resultHTML += `<div class="score-detail">`;
     resultHTML += `<h3>영역별 점수:</h3>`;
-    for (const cat in scores) {
-        resultHTML += `<p><span>${cat} (${categoryDescriptions[cat].name}):</span> ${scores[cat]} 점</p>`;
+    // 점수 내림차순 정렬 (시각화된 점수와 동일하게)
+    const sortedScores = Object.entries(scores).sort(([, a], [, b]) => b - a);
+    for (const [cat, score] of sortedScores) {
+        resultHTML += `<p><span>${cat} (${categoryDescriptions[cat].name}):</span> ${score.toFixed(1)} 점</p>`; // 소수점 한 자리까지 표시
     }
-    resultHTML += `<p style="margin-top: 10px; font-weight: bold; color: #e65100;">* 점수는 상대적인 성향을 나타내며, 높을수록 해당 성향이 강함을 의미합니다.</p>`;
+    // 점수 범위 계산 및 표시 (최소점과 최대점을 기반으로)
+    const allScores = Object.values(scores);
+    const minPossibleScore = -2 * (5 * 2 + 5 * 1 + 10 * 0.5); // 모든 문항에서 가장 낮은 점수(-2)와 가장 낮은 가중치(-1/-0.5)를 받을 때
+    const maxPossibleScore = 2 * (5 * 2 + 5 * 1 + 10 * 0.5); // 모든 문항에서 가장 높은 점수(+2)와 가장 높은 가중치(2)를 받을 때
+    // 실제 계산된 min/max 가능한 점수는 복잡한 가중치 조합으로 더 정확히 계산해야 하지만,
+    // 대략적인 범위를 보여주기 위해 임시값을 사용하거나,
+    // 여기서는 Chart.js의 min/max 설정을 통해 그래프 범위를 조정합니다.
+    resultHTML += `<p style="margin-top: 10px; font-weight: bold; color: #e65100;">* 점수는 상대적인 성향을 나타내며, 높을수록 해당 성향이 강함을 의미합니다.<br>각 점수는 최대 약 ${Math.max(...allScores).toFixed(1)}점, 최소 약 ${Math.min(...allScores).toFixed(1)}점 범위 내에 있습니다.</p>`;
     resultHTML += `</div>`;
 
     resultDiv.innerHTML = resultHTML;
+    const ctx = document.getElementById('esbiChart').getContext('2d');
+
+    // Chart.js를 위한 데이터 준비
+    const labels = ['E (봉급생활자)', 'S (자영업자)', 'B (사업가)', 'I (투자가)'];
+    const dataValues = [scores.E, scores.S, scores.B, scores.I];
+
+    // 점수를 0-100 스케일로 정규화 (그래프 시각화를 위해)
+    // 모든 점수 중 최소값과 최대값 찾기
+    const globalMin = Math.min(...allScores);
+    const globalMax = Math.max(...allScores);
+
+    // 최소 점수를 0으로, 최대 점수를 100으로 스케일링하는 정규화 함수
+    const normalize = (value) => {
+        if (globalMax === globalMin) return 50; // 모든 점수가 같으면 중간값으로
+        return ((value - globalMin) / (globalMax - globalMin)) * 100;
+    };
+
+    const normalizedData = dataValues.map(normalize);
+
+    // 차트 인스턴스가 이미 존재하면 파괴 후 재생성 (결과를 다시 볼 때)
+    if (esbiChart) {
+      esbiChart.destroy();
+    }
+
+    esbiChart = new Chart(ctx, {
+      type: 'radar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'ESBI 성향 점수',
+          data: normalizedData, // 정규화된 점수 사용
+          backgroundColor: 'rgba(75, 192, 192, 0.4)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 2,
+          pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(75, 192, 192, 1)'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false, // 컨테이너에 맞춰 크기 조절
+        plugins: {
+          legend: {
+            display: false // 범례 숨김
+          },
+          tooltip: {
+            callbacks: {
+                label: function(context) {
+                    // 툴팁에 실제 점수 표시
+                    const rawScore = dataValues[context.dataIndex];
+                    return ` ${context.dataset.label}: ${rawScore.toFixed(1)} 점`;
+                }
+            }
+          }
+        },
+        scales: {
+          r: {
+            angleLines: {
+              display: false // 육각형의 '각' 라인 숨김
+            },
+            grid: {
+              circular: false, // 원형 격자 대신 사각형 격자 사용 (핵심 변경)
+              color: 'rgba(0,0,0,0.1)'
+            },
+            pointLabels: {
+              font: {
+                size: 14,
+                weight: 'bold'
+              },
+              color: '#333'
+            },
+            min: 0, // 정규화된 최솟값
+            max: 100, // 정규화된 최댓값
+            ticks: {
+                display: false // 눈금 값 숨김 (깔끔한 시각화)
+            }
+          }
+        }
+      }
+    });
+
     resultDiv.scrollIntoView({ behavior: 'smooth' }); // 결과로 스크롤
   });
 </script>
