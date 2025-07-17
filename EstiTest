@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ESBI 성향 테스트</title>
+<link rel="icon" href="favicon.png" type="image/png" />
+<style>
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 700px; margin: auto; padding: 20px; background: #f9f9f9; }
+  h1 { text-align: center; margin-bottom: 30px; }
+  .question { margin-bottom: 18px; background: #fff; padding: 15px 20px; border-radius: 8px; box-shadow: 0 0 8px #ddd; }
+  .question p { margin-bottom: 8px; font-weight: 600; }
+  .answers label { margin-right: 15px; cursor: pointer; }
+  #result { margin-top: 30px; font-size: 1.3em; font-weight: bold; padding: 15px; background: #e2f0d9; border-radius: 8px; text-align: center; }
+  button { display: block; margin: 30px auto; padding: 12px 28px; font-size: 1.1em; border: none; background: #4caf50; color: white; border-radius: 6px; cursor: pointer; }
+  button:hover { background: #45a049; }
+</style>
+</head>
+<body>
+
+<h1>ESBI 성향 테스트</h1>
+
+<form id="quizForm">
+
+<!-- 20문항 시작 -->
+
+<div class="question">
+  <p>1. 나는 안정적인 월급과 직장 내 복지가 가장 중요하다고 생각한다.</p>
+  <div class="answers">
+    <label><input type="radio" name="q1" value="5" required> 완전 내 스타일</label>
+    <label><input type="radio" name="q1" value="4"> 꽤 잘 맞아</label>
+    <label><input type="radio" name="q1" value="3"> 보통</label>
+    <label><input type="radio" name="q1" value="2"> 별로</label>
+    <label><input type="radio" name="q1" value="1"> 전혀 아니야</label>
+  </div>
+</div>
+
+<div class="question">
+  <p>2. 나는 여러 명의 팀원을 관리하며 큰 성과를 내고 싶다.</p>
+  <div class="answers">
+    <label><input type="radio" name="q2" value="5" required> 완전 내 스타일</label>
+    <label><input type="radio" name="q2" value="4"> 꽤 잘 맞아</label>
+    <label><input type="radio" name="q2" value="3"> 보통</label>
+    <label><input type="radio" name="q2" value="2"> 별로</label>
+    <label><input type="radio" name="q2" value="1"> 전혀 아니야</label>
+  </div>
+</div>
+
+<div class="question">
+  <p>3. 나는 내 일의 주인이 되어 스스로 결정을 내리고 싶다.</p>
+  <div class="answers">
+    <label><input type="radio" name="q3" value="5" required> 완전 내 스타일</label>
+    <label><input type="radio" name="q3" value="4"> 꽤 잘 맞아</label>
+    <label><input type="radio" name="q3" value="3"> 보통</label>
+    <label><input type="radio" name="q3" value="2"> 별로</label>
+    <label><input type="radio" name="q3" value="1"> 전혀 아니야</label>
+  </div>
+</div>
+
+<div class="question">
+  <p>4. 나는 돈이 스스로 일해서 부를 늘리는 것을 목표로 한다.</p>
+  <div class="answers">
+    <label><input type="radio" name="q4" value="5" required> 완전 내 스타일</label>
+    <label><input type="radio" name="q4" value="4"> 꽤 잘 맞아</label>
+    <label><input type="radio" name="q4" value="3"> 보통</label>
+    <label><input type="radio" name="q4" value="2"> 별로</label>
+    <label><input type="radio" name="q4" value="1"> 전혀 아니야</label>
+  </div>
+</div>
+
+<div class="question">
+  <p>5. 안정적인 직장과 미래 계획이 나에게 큰 위안을 준다.</p>
+  <div class="answers">
+    <label><input type="radio" name="q5" value="5" required> 완전 내 스타일</label>
+    <label><input type="radio" name="q5" value="4"> 꽤 잘 맞아</label>
+    <label><input type="radio" name="q5" value="3"> 보통</label>
+    <label><input type="radio" name="q5" value="2"> 별로</label>
+    <label><input type="radio" name="q5" value="1"> 전혀 아니야</label>
+  </div>
+</div>
+
+<div class="question">
+  <p>6. 나는 조직의 시스템을 활용해 큰 성과를 내는 걸 선호한다.</p>
+  <div class="answers">
+    <label><input type="radio" name="q6" value="5" required> 완전 내 스타일</label>
+    <label><input type="radio" name="q6" value="4"> 꽤 잘 맞아</label>
+    <label><input type="radio" name="q6" value="3"> 보통</label>
+    <label><input type="radio" name="q6" value="2"> 별로</label>
+    <label><input type="radio" name="q6" value="1"> 전혀 아니야</label>
+  </div>
+</div>
+
+<div class="question">
+  <p>7. 스스로 일의 흐름을 주도하며 책임지는 걸 좋아한다.</p>
+  <div class="answers">
+    <label><input type="radio" name="q7" value="5" required> 완전 내 스타일</label>
+    <label><input type="radio" name="q7" value="4"> 꽤 잘 맞아</label>
+    <label><input type="radio" name="q7" value="3"> 보통</label>
+    <label><input type="radio" name="q7" value="2"> 별로</label>
+    <label><input type="radio" name="q7" value="1"> 전혀 아니야</label>
+  </div>
+</div>
+
+<div class="question">
+  <p>8. 나는 내 자본을 투자해 수익을 창출하는 데 관심이 많다.</p>
+  <div class="answers">
+    <label><input type="radio" name="q8" value="5" required> 완전 내 스타일</label>
+    <label><input type="radio" name="q8" value="4"> 꽤 잘 맞아</label>
+    <label><input type="radio" name="q8" value="3"> 보통</label>
+    <label><input type="radio" name="q8" value="2"> 별로</label>
+    <label><input type="radio" name="q8" value="1"> 전혀 아니야</label>
+  </div>
+</div>
+
+<div class="question">
+  <p>9. 나는 직장에서 승진과 안정성을 최우선으로 생각한다.</p>
+  <div class="answers">
+    <label><input type="radio" name="q9" value="5" required> 완전 내 스타일</label>
+    <label><input type="radio" name="q9" value="4"> 꽤 잘 맞아</label>
+    <label><input type="radio" name="q9" value="3"> 보통</label>
+    <label><input type="radio" name="q9" value="2"> 별로</label>
+    <label><input type="radio" name="q9" value="1"> 전혀 아니야</label>
+  </div>
+</div>
+
+<div class="question">
+  <p>10. 나는 다른 사람들을 관리하며 목표를 달성하는 데 뛰어나다.</p>
+  <div class="answers">
+    <label><input type="radio" name="q10" value="5" required> 완전 내 스타일</label>
+    <label><input type="radio" name="q10" value="4"> 꽤 잘 맞아</label>
+    <label><input type="radio" name="q10" value="3"> 보통</label>
+    <label><input type="radio" name="q10" value="2"> 별로</label>
+    <label><input type="radio" name="q10" value="1"> 전혀 아니야</label>
+  </div>
+</div>
+
+<div class="question">
+  <p>11. 나는 독립적으로 내 사업이나 일을 운영하는 게 좋다.</p>
+  <div class="answers">
+    <label><input type="radio" name="q11" value="5" required> 완전 내 스타일</label>
+    <label><input type="radio" name="q11" value="4"> 꽤 잘 맞아</label>
+    <label><input type="radio" name="q11" value="3"> 보통</label>
+    <label><input type="radio" name="q11" value="2"> 별로</label>
+    <label><input type="radio" name="q11" value="1"> 전혀 아니야</label>
+  </div>
+</div>
+
+<div class="question">
+  <p>12. 나는 투자 수익으로 생활할 수 있기를 꿈꾼다.</p>
+  <div class="answers">
+    <label><input type="radio" name="q12" value="5" required> 완전 내 스타일</label>
+    <label><input type="radio" name="q12" value="4"> 꽤 잘 맞아</label>
+    <label><input type="radio" name="q12" value="3"> 보통</label>
+    <label><input type="radio" name="q12" value="2"> 별로</label>
+    <label><input type="radio" name="q12" value="1"> 전혀 아니야</label>
+  </div>
+</div>
+
+<div class="question">
+  <p>13. 나는 안전한 직장이 나에게 심리적 안정감을 준다.</p>
+  <div class="answers">
+    <label><input type="radio" name="q13" value="5" required> 완전 내 스타일</label>
+    <label><input type="radio" name="q13" value="4"> 꽤 잘 맞아</label>
+    <label><input type="radio" name="q13" value="3"> 보통</label>
+    <label><input type="radio" name="q13" value="2"> 별로</label>
+    <label><input type="radio" name="q13" value="1"> 전혀 아니야</label>
+  </div>
+</div>
+
+<div class="question">
+  <p>14. 나는 조직 내에서 다른 사람들을 이끌고 싶다.</p>
+  <div class="answers">
+    <label><input type="radio" name="q14" value="5" required> 완전 내 스타일</label>
+    <label><input type="radio" name="q14" value="4"> 꽤 잘 맞아</label>
+    <label><input type="radio" name="q14" value="3"> 보통</label>
+    <label><input type="radio" name="q14" value="2"> 별로</label>
+    <label><input type="radio" name="q14" value="1"> 전혀 아니야</label>
+  </div>
+</div>
+
+<div class="question">
+  <p>15. 나는 내 일과 시간에 대해 스스로 결정하고 싶다.</p>
+  <div class="answers">
+    <label><input type="radio" name="q15" value="5" required> 완전 내 스타일</label>
+    <label><input type="radio" name="q15" value="4"> 꽤 잘 맞아</label>
+    <label><input type="radio" name="q15" value="3"> 보통</label>
+    <label><input type="radio" name="q15" value="2"> 별로</label>
+    <label><input type="radio" name="q15" value="1"> 전혀 아니야</label>
+  </div>
+</div>
+
+<div class="question">
+  <p>16. 나는 주식, 부동산 등 자산 투자에 관심이 많다.</p>
+  <div class="answers">
+    <label><input type="radio" name="q16" value="5" required> 완전 내 스타일</label>
+    <label><input type="radio" name="q16" value="4"> 꽤 잘 맞아</label>
+    <label><input type="radio" name="q16" value="3"> 보통</label>
+    <label><input type="radio" name="q16" value="2"> 별로</label>
+    <label><input type="radio" name="q16" value="1"> 전혀 아니야</label>
+  </div>
+</div>
+
+<div class="question">
+  <p>17. 나는 조직에서 승진과 안정적인 자리를 원한다.</p>
+  <div class="answers">
+    <label><input type="radio" name="q17" value="5" required> 완전 내 스타일</label>
+    <label><input type="radio" name="q17" value="4"> 꽤 잘 맞아</label>
+    <label><input type="radio" name="q17" value="3"> 보통</label>
+    <label><input type="radio" name="q17" value="2"> 별로</label>
+    <label><input type="radio" name="q17" value="1"> 전혀 아니야</label>
+  </div>
+</div>
+
+<div class="question">
+  <p>18. 나는 조직에서 팀을 이끌어 높은 성과를 내고 싶다.</p>
+  <div class="answers">
+    <label><input type="radio" name="q18" value="5" required> 완전 내 스타일</label>
+    <label><input type="radio" name="q18" value="4"> 꽤 잘 맞아</label>
+    <label><input type="radio" name="q18" value="3"> 보통</label>
+    <label><input type="radio" name="q18" value="2"> 별로</label>
+    <label><input type="radio" name="q18" value="1"> 전혀 아니야</label>
+  </div>
+</div>
+
+<div class="question">
+  <p>19. 나는 내 사업을 키우고 확장하는 데 집중한다.</p>
+  <div class="answers">
+    <label><input type="radio" name="q19" value="5" required> 완전 내 스타일</label>
+    <label><input type="radio" name="q19" value="4"> 꽤 잘 맞아</label>
+    <label><input type="radio" name="q19" value="3"> 보통</label>
+    <label><input type="radio" name="q19" value="2"> 별로</label>
+    <label><input type="radio" name="q19" value="1"> 전혀 아니야</label>
+  </div>
+</div>
+
+<div class="question">
+  <p>20. 나는 자산 투자로 경제적 자유를 이루고 싶다.</p>
+  <div class="answers">
+    <label><input type="radio" name="q20" value="5" required> 완전 내 스타일</label>
+    <label><input type="radio" name="q20" value="4"> 꽤 잘 맞아</label>
+    <label><input type="radio" name="q20" value="3"> 보통</label>
+    <label><input type="radio" name="q20" value="2"> 별로</label>
+    <label><input type="radio" name="q20" value="1"> 전혀 아니야</label>
+  </div>
+</div>
+
+<button type="submit">결과 보기</button>
+</form>
+
+<div id="result"></div>
+
+<script>
+  // ESBI 분면에 따른 문항 분류 (5문항씩 배분)
+  const categoryMap = {
+    q1: 'E', q5: 'E', q9: 'E', q13: 'E', q17: 'E',
+    q2: 'B', q6: 'B', q10: 'B', q14: 'B', q18: 'B',
+    q3: 'S', q7: 'S', q11: 'S', q15: 'S', q19: 'S',
+    q4: 'I', q8: 'I', q12: 'I', q16: 'I', q20: 'I'
+  };
+
+  const categoryScores = { E: 0, B: 0, S: 0, I: 0 };
+
+  document.getElementById('quizForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // 점수 초기화
+    for (let key in categoryScores) categoryScores[key] = 0;
+
+    // 점수 합산
+    const formData = new FormData(this);
+    for (const [key, value] of formData.entries()) {
+      const cat = categoryMap[key];
+      if (cat) categoryScores[cat] += parseInt(value, 10);
+    }
+
+    // 최고 점수 카테고리 찾기
+    let maxCat = null, maxScore = -1;
+    for (const cat in categoryScores) {
+      if (categoryScores[cat] > maxScore) {
+        maxScore = categoryScores[cat];
+        maxCat = cat;
+      }
+    }
+
+    // 결과 메시지
+    const resultTexts = {
+      E: '🔒 안정과 확실성을 중시하는 봉급생활자 (Employee) 유형입니다.',
+      B: '👔 리더십과 조직 운영에 강한 사업가 (Big Business) 유형입니다.',
+      S: '🛠️ 독립적으로 자신의 일을 하는 자영업자 (Self-Employed) 유형입니다.',
+      I: '💰 투자와 자산 운용에 집중하는 투자자 (Investor) 유형입니다.'
+    };
+
+    document.getElementById('result').textContent = `결과: ${resultTexts[maxCat]}`;
+  });
+</script>
+
+</body>
+<footer style="text-align:center; font-size:0.9em; color:#666; margin-top:40px;">
+  © 2025 이상훈컴퍼니 무단 복제 및 재배포 금지.
+</footer>
+
+</html>
