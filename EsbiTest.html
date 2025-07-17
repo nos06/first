@@ -22,7 +22,7 @@
   button:hover { background: #45a049; }
   footer { text-align:center; font-size:0.85em; color:#888; margin-top:40px; padding-top: 20px; border-top: 1px solid #eee; }
   /* 차트 컨테이너 스타일 */
-  .chart-container { width: 100%; max-width: 480px; margin: 20px auto; } /* 6각형을 위해 폭을 약간 더 넓힘 */
+  .chart-container { width: 100%; max-width: 480px; margin: 20px auto; } 
   canvas { background: white; border-radius: 8px; padding: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 </style>
 </head>
@@ -288,7 +288,7 @@
 </div>
 
 <div class="question">
-  <p>26. 나는 돈을 버는 것만큼, **내 활동이 사회에 긍정적인 영향을 미치는지**도 중요하게 생각합니다.</p>
+  <p>26. 안정적인 이익보다 **높은 수익을 위해 위험을 감수**할 의향이 있습니다.</p>
   <div class="answers">
     <label><input type="radio" name="q26" value="5" required> 매우 그렇다</label>
     <label><input type="radio" name="q26" value="4"> 그렇다</label>
@@ -298,7 +298,7 @@
   </div>
 </div>
 <div class="question">
-  <p>27. **지속 가능한 방식**이나 **윤리적 가치**를 중요하게 여기는 기업/사업에 더 관심이 많습니다.</p>
+  <p>27. 불확실한 상황에서도 **새로운 기회를 잡기 위해 과감하게 행동**하는 편입니다.</p>
   <div class="answers">
     <label><input type="radio" name="q27" value="5" required> 매우 그렇다</label>
     <label><input type="radio" name="q27" value="4"> 그렇다</label>
@@ -308,7 +308,7 @@
   </div>
 </div>
 <div class="question">
-  <p>28. 내가 속한 **공동체나 사회 문제 해결**에 적극적으로 기여하고 싶습니다.</p>
+  <p>28. **손실을 보더라도 실패를 통해 배우는 것**을 중요하게 생각합니다.</p>
   <div class="answers">
     <label><input type="radio" name="q28" value="5" required> 매우 그렇다</label>
     <label><input type="radio" name="q28" value="4"> 그렇다</label>
@@ -318,7 +318,7 @@
   </div>
 </div>
 <div class="question">
-  <p>29. 이익만을 쫓기보다는, **타인의 삶을 개선**하거나 긍정적인 변화를 만드는 일에 보람을 느낍니다.</p>
+  <p>29. 주변의 만류에도 불구하고 **내 직관을 믿고 새로운 도전을** 합니다.</p>
   <div class="answers">
     <label><input type="radio" name="q29" value="5" required> 매우 그렇다</label>
     <label><input type="radio" name="q29" value="4"> 그렇다</label>
@@ -328,7 +328,7 @@
   </div>
 </div>
 <div class="question">
-  <p>30. 나의 재능과 자원을 활용하여 **세상을 더 나은 곳으로 만드는 데 기여**하고 싶습니다.</p>
+  <p>30. 미래가 불확실하더라도, 내가 통제할 수 있는 범위 내라면 **큰 두려움 없이 뛰어듭니다.**</p>
   <div class="answers">
     <label><input type="radio" name="q30" value="5" required> 매우 그렇다</label>
     <label><input type="radio" name="q30" value="4"> 그렇다</label>
@@ -349,81 +349,81 @@
 
 <script>
   // 질문별 가중치 (각 질문은 모든 6개 사분면에 영향을 미침)
-  // [E, S, B, I, IN(혁신성), SV(사회적 가치)] 순서
+  // [E, S, B, I, IN(혁신성), RT(위험 감수 성향)] 순서
   const questionWeights = {
     // E (Employee) 문항 (q1-q5)
-    q1: { E: 2, S: 0.5, B: -0.5, I: -0.5, IN: -0.5, SV: 0 }, 
-    q2: { E: 2, S: -1, B: -1, I: -1, IN: -0.5, SV: -0.5 }, 
-    q3: { E: 2, S: -1, B: -1, I: -1, IN: -0.5, SV: 0 }, 
-    q4: { E: 2, S: -0.5, B: -1, I: -1, IN: -0.5, SV: -0.5 }, 
-    q5: { E: 2, S: -0.5, B: 0.5, I: -0.5, IN: 0, SV: 0 }, 
+    q1: { E: 2, S: 0.5, B: -0.5, I: -0.5, IN: -0.5, RT: -1 }, 
+    q2: { E: 2, S: -1, B: -1, I: -1, IN: -0.5, RT: -1 }, 
+    q3: { E: 2, S: -1, B: -1, I: -1, IN: -0.5, RT: -1 }, 
+    q4: { E: 2, S: -0.5, B: -1, I: -1, IN: -0.5, RT: -1 }, 
+    q5: { E: 2, S: -0.5, B: 0.5, I: -0.5, IN: 0, RT: -0.5 }, 
 
     // S (Self-employed) 문항 (q6-q10)
-    q6: { E: -1, S: 2, B: 1, I: 0, IN: 0.5, SV: 0 }, 
-    q7: { E: -0.5, S: 2, B: 0.5, I: -0.5, IN: 0, SV: 0 }, 
-    q8: { E: -1, S: 2, B: 0.5, I: 0.5, IN: 0, SV: 0 }, 
-    q9: { E: -0.5, S: 2, B: -1, I: -0.5, IN: -0.5, SV: 0 }, 
-    q10: { E: 0.5, S: 2, B: 0.5, I: 0, IN: 0.5, SV: 0.5 }, 
+    q6: { E: -1, S: 2, B: 1, I: 0, IN: 0.5, RT: 0.5 }, 
+    q7: { E: -0.5, S: 2, B: 0.5, I: -0.5, IN: 0, RT: 0 }, 
+    q8: { E: -1, S: 2, B: 0.5, I: 0.5, IN: 0, RT: 0.5 }, 
+    q9: { E: -0.5, S: 2, B: -1, I: -0.5, IN: -0.5, RT: -0.5 }, 
+    q10: { E: 0.5, S: 2, B: 0.5, I: 0, IN: 0.5, RT: 0 }, 
 
     // B (Business Owner) 문항 (q11-q15)
-    q11: { E: -1, S: -1, B: 2, I: 1, IN: 1, SV: 0.5 }, 
-    q12: { E: 0, S: -1, B: 2, I: 0.5, IN: 0.5, SV: 0.5 }, 
-    q13: { E: -0.5, S: 0.5, B: 2, I: 0.5, IN: 2, SV: 0.5 }, 
-    q14: { E: -1, S: 0.5, B: 2, I: 0.5, IN: 1, SV: 0.5 }, 
-    q15: { E: 0.5, S: 0, B: 2, I: -0.5, IN: 1, SV: 0.5 }, 
+    q11: { E: -1, S: -1, B: 2, I: 1, IN: 1, RT: 1.5 }, 
+    q12: { E: 0, S: -1, B: 2, I: 0.5, IN: 0.5, RT: 1 }, 
+    q13: { E: -0.5, S: 0.5, B: 2, I: 0.5, IN: 2, RT: 1.5 }, 
+    q14: { E: -1, S: 0.5, B: 2, I: 0.5, IN: 1, RT: 1 }, 
+    q15: { E: 0.5, S: 0, B: 2, I: -0.5, IN: 1, RT: 0.5 }, 
 
     // I (Investor) 문항 (q16-q20)
-    q16: { E: -1, S: -1, B: 0.5, I: 2, IN: 0.5, SV: -0.5 }, 
-    q17: { E: -1, S: -1, B: 0.5, I: 2, IN: 0, SV: -0.5 }, 
-    q18: { E: -0.5, S: 0.5, B: 0.5, I: 2, IN: 1, SV: 0 }, 
-    q19: { E: -1, S: 0.5, B: 0.5, I: 2, IN: 0.5, SV: 0 }, 
-    q20: { E: 0, S: 0.5, B: 1, I: 2, IN: 0.5, SV: 0.5 }, 
+    q16: { E: -1, S: -1, B: 0.5, I: 2, IN: 0.5, RT: 2 }, 
+    q17: { E: -1, S: -1, B: 0.5, I: 2, IN: 0, RT: 1.5 }, 
+    q18: { E: -0.5, S: 0.5, B: 0.5, I: 2, IN: 1, RT: 1 }, 
+    q19: { E: -1, S: 0.5, B: 0.5, I: 2, IN: 0.5, RT: 1.5 }, 
+    q20: { E: 0, S: 0.5, B: 1, I: 2, IN: 0.5, RT: 1 }, 
 
-    // IN (Innovation) 문항 (q21-q25) - 새롭게 추가
-    q21: { E: -1, S: 0.5, B: 1.5, I: 0.5, IN: 2, SV: 0.5 }, 
-    q22: { E: -1, S: 0.5, B: 1.5, I: 0.5, IN: 2, SV: 0.5 }, 
-    q23: { E: -0.5, S: 0.5, B: 1, I: 1, IN: 2, SV: 0 }, 
-    q24: { E: -1, S: 0, B: 1.5, I: 1, IN: 2, SV: 0 }, 
-    q25: { E: 0, S: 1, B: 1, I: 0.5, IN: 2, SV: 0.5 }, 
+    // IN (Innovation) 문항 (q21-q25)
+    q21: { E: -1, S: 0.5, B: 1.5, I: 0.5, IN: 2, RT: 1.5 }, 
+    q22: { E: -1, S: 0.5, B: 1.5, I: 0.5, IN: 2, RT: 1 }, 
+    q23: { E: -0.5, S: 0.5, B: 1, I: 1, IN: 2, RT: 1 }, 
+    q24: { E: -1, S: 0, B: 1.5, I: 1, IN: 2, RT: 1.5 }, 
+    q25: { E: 0, S: 1, B: 1, I: 0.5, IN: 2, RT: 0.5 }, 
 
-    // SV (Social Value) 문항 (q26-q30) - 새롭게 추가
-    q26: { E: 0.5, S: 1, B: 1.5, I: 0.5, IN: 0.5, SV: 2 }, 
-    q27: { E: 0.5, S: 0.5, B: 1, I: 0.5, IN: 0.5, SV: 2 }, 
-    q28: { E: 0.5, S: 1, B: 1.5, I: 0, IN: 0, SV: 2 }, 
-    q29: { E: 0.5, S: 1, B: 1, I: 0, IN: 0, SV: 2 }, 
-    q30: { E: 0.5, S: 1, B: 1.5, I: 0, IN: 0.5, SV: 2 }
+    // RT (Risk Tolerance) 문항 (q26-q30)
+    q26: { E: -1.5, S: 0.5, B: 1.5, I: 2, IN: 1, RT: 2 }, 
+    q27: { E: -1.5, S: 0.5, B: 1.5, I: 1.5, IN: 1.5, RT: 2 }, 
+    q28: { E: -1, S: 0, B: 1, I: 1.5, IN: 1, RT: 2 }, 
+    q29: { E: -1, S: 0.5, B: 1, I: 1, IN: 1, RT: 2 }, 
+    q30: { E: -1.5, S: 0, B: 1.5, I: 1.5, IN: 1.5, RT: 2 }
   };
 
   const categoryDescriptions = {
     E: {
-      name: '봉급생활자 (Employee)',
+      name: '봉급생활자',
       emoji: '🧑‍💼',
       description: '안정적인 직업과 예측 가능한 수입을 선호하며, 정해진 규칙과 절차 내에서 일하는 것을 편안하게 생각합니다. 승진과 복리후생을 중요하게 여깁니다.'
     },
     S: {
-      name: '자영업자/전문직 (Self-Employed)',
+      name: '자영업자/전문직',
       emoji: '🛠️',
       description: '자신의 일과 결정에 대한 완전한 통제를 선호하며, 자신의 노력과 재능이 직접적인 수입으로 연결되는 것을 중요시합니다. 특정 분야의 최고 전문가가 되기를 지향합니다.'
     },
     B: {
-      name: '사업가 (Business Owner)',
+      name: '사업가',
       emoji: '📈',
       description: '자신 없이도 돌아가는 시스템을 구축하고, 타인의 시간과 재능을 활용하여 사업을 확장하고 성장시키는 데 집중합니다. 리더십을 발휘하여 비전을 제시하는 것을 좋아합니다.'
     },
     I: {
-      name: '투자가 (Investor)',
+      name: '투자가',
       emoji: '💰',
       description: '돈이 스스로 일하게 만들어 부를 늘리는 것을 목표로 하며, 자산을 구매하고 시장의 흐름을 분석하여 수동적인 수입을 창출하는 데 관심이 많습니다. 재정적 자유와 독립을 궁극적인 목표로 삼습니다.'
     },
     IN: {
-      name: '혁신가 (Innovator)',
+      name: '혁신가', // 이름은 그대로 사용하나, 결과 출력 시 수식어로 활용
       emoji: '💡',
       description: '새로운 아이디어를 탐색하고, 기존 방식을 개선하거나 완전히 새로운 솔루션을 창조하려는 성향이 강합니다. 변화와 불확실성을 기회로 여기며 끊임없이 발전하고자 합니다.'
     },
-    SV: {
-      name: '사회적 기여자 (Social Contributor)',
-      emoji: '🤝',
-      description: '개인의 이익을 넘어 자신의 활동을 통해 사회나 타인에게 긍정적인 영향을 미치고 가치를 창출하는 데 중점을 둡니다. 지속 가능성, 윤리, 공동체 기여를 중요하게 생각합니다.'
+    RT: { // Social Value 대신 Risk Tolerance로 변경
+      name: '위험 감수자', // 이름은 그대로 사용하나, 결과 출력 시 수식어로 활용
+      emoji: '🎢',
+      description: '불확실성이나 잠재적 손실에도 불구하고 새로운 기회를 탐색하고 도전하는 것을 두려워하지 않습니다. 높은 수익을 위해 기꺼이 위험을 감수하며, 실패를 배움의 과정으로 여깁니다.'
     }
   };
 
@@ -432,7 +432,7 @@
   document.getElementById('quizForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    let scores = { E: 0, S: 0, B: 0, I: 0, IN: 0, SV: 0 }; // 6개 사분면 점수 초기화
+    let scores = { E: 0, S: 0, B: 0, I: 0, IN: 0, RT: 0 }; // 6개 사분면 점수 초기화
     const formData = new FormData(this);
 
     for (const [key, value] of formData.entries()) {
@@ -447,31 +447,88 @@
         scores.S += adjustedValue * weights.S;
         scores.B += adjustedValue * weights.B;
         scores.I += adjustedValue * weights.I;
-        scores.IN += adjustedValue * weights.IN; // 혁신성 점수 추가
-        scores.SV += adjustedValue * weights.SV; // 사회적 가치 점수 추가
+        scores.IN += adjustedValue * weights.IN; 
+        scores.RT += adjustedValue * weights.RT; 
       }
     }
 
-    // 최고 점수 카테고리 찾기
-    let maxCat = null;
-    let maxScore = -Infinity; 
+    // --- 메인 ESBI 성향 결정 ---
+    let mainESBICat = null;
+    let mainESBIScore = -Infinity; 
+    const esbiCategories = ['E', 'S', 'B', 'I']; // 메인 ESBI만 고려
 
-    for (const cat in scores) {
-        if (scores[cat] > maxScore) {
-            maxScore = scores[cat];
-            maxCat = cat;
+    for (const cat of esbiCategories) {
+        if (scores[cat] > mainESBIScore) {
+            mainESBIScore = scores[cat];
+            mainESBICat = cat;
         }
     }
 
-    // 결과 표시
+    // --- IN 및 RT 수식어 결정 로직 ---
+    let innovationModifier = '';
+    let riskModifier = '';
+
+    // IN과 RT 점수의 상대적인 높낮이를 판단하기 위한 기준점 설정
+    // 모든 점수의 평균 또는 중간값을 기준으로 삼거나, 질문당 최대 점수를 기준으로 할 수 있습니다.
+    // 여기서는 간단하게 평균 점수를 기준으로 높고 낮음을 판단합니다.
+    const totalScoreIN = Object.values(questionWeights).reduce((sum, q) => sum + Math.abs(q.IN), 0) * 2; // IN에 대한 총 가중치 합 * 2 (최대 긍정 답변 기준)
+    const totalScoreRT = Object.values(questionWeights).reduce((sum, q) => sum + Math.abs(q.RT), 0) * 2; // RT에 대한 총 가중치 합 * 2
+
+    // IN과 RT의 점수 범위를 고려하여 기준점 설정 (예: 최대 가능 점수의 30% 이상, 70% 이상)
+    // 이 임계값은 테스트 후 조정이 필요할 수 있습니다.
+    const IN_THRESHOLD_HIGH = totalScoreIN * 0.4; // 40% 이상이면 '혁신적인'
+    const IN_THRESHOLD_LOW = totalScoreIN * -0.2; // -20% 이하면 '보수적인' (혁신에 보수적)
+
+    const RT_THRESHOLD_HIGH = totalScoreRT * 0.4; // 40% 이상이면 '과감한'
+    const RT_THRESHOLD_LOW = totalScoreRT * -0.2; // -20% 이하면 '신중한' (위험 회피)
+
+
+    // 혁신성 수식어
+    if (scores.IN >= IN_THRESHOLD_HIGH) {
+        innovationModifier = '혁신적인 ';
+    } else if (scores.IN <= IN_THRESHOLD_LOW) {
+        innovationModifier = '현상 유지적인 '; // 또는 '전통적인', '보수적인'
+    }
+
+    // 위험 감수 성향 수식어
+    if (scores.RT >= RT_THRESHOLD_HIGH) {
+        riskModifier = '과감한 ';
+    } else if (scores.RT <= RT_THRESHOLD_LOW) {
+        riskModifier = '신중한 '; // 또는 '안정 지향적인'
+    }
+
+
+    // 최종 결과 메시지 조합
     const resultDiv = document.getElementById('result');
     let resultHTML = `<h2>당신의 ESBI 확장 성향 분석 결과는!</h2>`;
     resultHTML += `<div class="chart-container"><canvas id="esbiChart"></canvas></div>`;
 
-    if (maxCat) {
-      const mainCategory = categoryDescriptions[maxCat];
-      resultHTML += `<p>${mainCategory.emoji} 당신은 **${mainCategory.name}** 성향이 가장 강합니다! ${mainCategory.emoji}</p>`;
+    if (mainESBICat) {
+      const mainCategory = categoryDescriptions[mainESBICat];
+      const finalCategoryName = `${innovationModifier}${riskModifier}${mainCategory.name}`;
+      resultHTML += `<p>${mainCategory.emoji} 당신은 **${finalCategoryName}** 성향이 가장 강합니다! ${mainCategory.emoji}</p>`;
       resultHTML += `<p style="font-size: 1em; color: #607d8b; line-height: 1.5; margin-top: 15px;">${mainCategory.description}</p>`;
+      
+      // 혁신성/위험 감수 성향에 대한 추가 설명
+      if (innovationModifier || riskModifier) {
+        resultHTML += `<div style="font-size: 0.95em; color: #4CAF50; margin-top: 10px; border-top: 1px dashed #c8e6c9; padding-top: 10px;">`;
+        if (innovationModifier) {
+            if (scores.IN >= IN_THRESHOLD_HIGH) {
+                resultHTML += `<p>💡 **혁신성:** 당신은 새로운 아이디어를 탐색하고 변화를 주도하는 데 강한 성향을 보입니다.</p>`;
+            } else if (scores.IN <= IN_THRESHOLD_LOW) {
+                resultHTML += `<p>💡 **혁신성:** 당신은 기존 방식을 선호하며, 새로운 시도에는 비교적 신중한 경향이 있습니다.</p>`;
+            }
+        }
+        if (riskModifier) {
+            if (scores.RT >= RT_THRESHOLD_HIGH) {
+                resultHTML += `<p>🎢 **위험 감수 성향:** 당신은 높은 수익을 위해 기꺼이 위험을 감수하고 과감하게 도전하는 편입니다.</p>`;
+            } else if (scores.RT <= RT_THRESHOLD_LOW) {
+                resultHTML += `<p>🎢 **위험 감수 성향:** 당신은 불확실성을 회피하며, 안정성과 신중한 접근을 선호합니다.</p>`;
+            }
+        }
+        resultHTML += `</div>`;
+      }
+
     } else {
         resultHTML += `<p>성향을 분석할 수 없습니다. 모든 질문에 답했는지 확인해주세요.</p>`;
     }
@@ -480,6 +537,7 @@
     resultHTML += `<div class="score-detail">`;
     resultHTML += `<h3>영역별 점수:</h3>`;
     // 점수 내림차순 정렬
+    // 메인 ESBI, IN, RT 순서로 표시되도록 조정 (선택적)
     const sortedScores = Object.entries(scores).sort(([, a], [, b]) => b - a);
     for (const [cat, score] of sortedScores) {
         resultHTML += `<p><span>${cat} (${categoryDescriptions[cat].name}):</span> ${score.toFixed(1)} 점</p>`; 
@@ -494,9 +552,10 @@
     resultDiv.innerHTML = resultHTML;
     const ctx = document.getElementById('esbiChart').getContext('2d');
 
-    // Chart.js를 위한 데이터 준비
-    const labels = ['E (봉급생활자)', 'S (자영업자)', 'B (사업가)', 'I (투자가)', 'IN (혁신가)', 'SV (사회적 기여자)'];
-    const dataValues = [scores.E, scores.S, scores.B, scores.I, scores.IN, scores.SV];
+    // Chart.js를 위한 데이터 준비: labels에 'RT (위험 감수 성향)' 추가
+    const labels = ['E (봉급생활자)', 'S (자영업자)', 'B (사업가)', 'I (투자가)', 'IN (혁신가)', 'RT (위험 감수 성향)'];
+    // dataValues에 scores.RT 추가
+    const dataValues = [scores.E, scores.S, scores.B, scores.I, scores.IN, scores.RT];
 
     // 점수를 0-100 스케일로 정규화 (그래프 시각화를 위해)
     const globalMin = Math.min(...allScores);
@@ -549,10 +608,10 @@
         scales: {
           r: {
             angleLines: {
-              display: true // 6각형을 위해 다시 표시 (사각형에선 숨겼었음)
+              display: true 
             },
             grid: {
-              circular: true, // 6각형 레이더 차트를 위해 다시 원형 격자 사용
+              circular: true,
               color: 'rgba(0,0,0,0.1)'
             },
             pointLabels: {
