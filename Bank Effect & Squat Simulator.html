@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Bank Effect & Squat Simulator</title>
     <style>
-        body { font-family: 'Arial', sans-serif; background: #1e1e24; color: #fff; margin: 20px; }
+        body { font-family: Arial, sans-serif; background: #1e1e24; color: #fff; margin: 20px; }
         .container { max-width: 900px; margin: 0 auto; background: #2a2a35; padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         h1 { text-align: center; color: #4af; margin-bottom: 5px; }
         .subtitle { text-align: center; color: #aaa; font-size: 14px; margin-bottom: 20px; }
@@ -44,7 +44,8 @@
         </div>
     </div>
 
-    <div class="status-box id="status-display">조종 상태 분석 중...</div>
+    <!-- 수정: 따옴표 오류 수정 (class와 id 분리) -->
+    <div class="status-box" id="status-display">조종 상태 분석 중...</div>
 
     <canvas id="simCanvas" width="850" height="260"></canvas>
 
@@ -60,16 +61,14 @@
     const canvas = document.getElementById('simCanvas');
     const ctx = canvas.getContext('2d');
 
-    // 슬라이더 요소
     const spdSlider = document.getElementById('speed');
     const distSlider = document.getElementById('distance');
     const windSlider = document.getElementById('wind');
 
-    // 디스플레이 요소
     const spdVal = document.getElementById('spd-val');
     const distVal = document.getElementById('dist-val');
     const windVal = document.getElementById('wind-val');
-    const statusBox = document.getElementById('status-display');
+    const statusBox = document.getElementById('status-display'); // 수정: 올바른 id로 참조
 
     function drawArrow(x, y, len, angle, color, lineWidth = 3) {
         ctx.save();
@@ -82,8 +81,6 @@
         ctx.moveTo(0, 0);
         ctx.lineTo(len, 0);
         ctx.stroke();
-        
-        // 화살표 머리
         ctx.beginPath();
         ctx.moveTo(len, 0);
         ctx.lineTo(len - 7, -4);
@@ -97,23 +94,17 @@
         const distance = parseFloat(distSlider.value);
         const wind = parseFloat(windSlider.value);
 
-        // 값 업데이트
         spdVal.innerText = speed.toFixed(1);
         distVal.innerText = distance;
         windVal.innerText = wind;
 
-        // 유체역학 계산 (간이 공식화)
-        // 스쿼트 근사치: Cb * B * CC / 100... 여기선 속도의 제곱에 비례 관계 레이아웃
-        const squat = (0.85 * Math.pow(speed * 0.514, 2)) / 9.81 * (150 / (200 - 58)); 
-        
-        // 측벽 효과 계산 (속도의 제곱에 비례, 거리의 제곱에 반비례)
+        const squat = (0.85 * Math.pow(speed * 0.514, 2)) / 9.81 * (150 / 142);
         const bankForce = (Math.pow(speed, 2) / Math.pow(distance, 1.5)) * 1.5;
         const windForce = Math.pow(wind, 2) * 0.05;
 
-        // 상태 판정
         let statusText = "";
         let statusClass = "";
-        
+
         if (bankForce > 12 || (speed > 12 && distance < 35)) {
             statusText = `CRITICAL: 극심한 측벽 효과 발생! 선미 흡입으로 인해 대각선 제어 불능 (Squat: ${squat.toFixed(2)}m)`;
             statusClass = "status-CRITICAL";
@@ -124,47 +115,46 @@
             statusText = `STABLE: 안정적인 통항 상태 유지 중 (Squat: ${squat.toFixed(2)}m)`;
             statusClass = "status-STABLE";
         }
-        
+
         statusBox.innerText = statusText;
         statusBox.className = "status-box " + statusClass;
 
-        // 그리기 시작
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // 1. 수에즈 운하 수로 (제한구역 벽면)
-        ctx.fillStyle = "#c2a679"; 
-        ctx.fillRect(0, 0, canvas.width, 40); // 북측 벽 (상단)
-        ctx.fillRect(0, canvas.height - 40, canvas.width, 40); // 남측 벽 (하단)
+        // 수로 벽
+        ctx.fillStyle = "#c2a679";
+        ctx.fillRect(0, 0, canvas.width, 40);
+        ctx.fillRect(0, canvas.height - 40, canvas.width, 40);
 
         // 센터라인
         ctx.strokeStyle = "rgba(255,255,255,0.15)";
         ctx.setLineDash([10, 10]);
         ctx.beginPath();
-        ctx.moveTo(0, canvas.height/2);
-        ctx.lineTo(canvas.width, canvas.height/2);
+        ctx.moveTo(0, canvas.height / 2);
+        ctx.lineTo(canvas.width, canvas.height / 2);
         ctx.stroke();
         ctx.setLineDash([]);
 
-        // 2. 선박 위치 계산 (y축 거리에 비례)
-        // 거리가 작을수록 아래쪽 벽(남측벽)에 붙는다고 가정
+        // 수정: Y좌표 범위를 벽 안쪽(40~220)으로 클램프
         const shipX = canvas.width / 2 - 100;
-        const shipY = (canvas.height - 40) - (distance * 1.8); 
-        
-        // 선체 회전 각도 (Bank effect로 인해 선수는 벽에서 멀어지고 선미는 달라붙음)
+        const minY = 40 + 30;
+        const maxY = canvas.height - 40 - 30;
+        const shipY = maxY - ((distance - 15) / 75) * (maxY - minY);
+
         let yawAngle = 0;
         if (statusClass === "status-CRITICAL") yawAngle = -0.09;
         else if (statusClass === "status-WARNING") yawAngle = -0.04;
-        
+
         ctx.save();
         ctx.translate(shipX, shipY);
         ctx.rotate(yawAngle);
 
-        // 선체 그리기 (컨테이너선 탑뷰)
-        ctx.fillStyle = "#333"; // 선체 색상
+        // 선체
+        ctx.fillStyle = "#333";
         ctx.beginPath();
         ctx.moveTo(-120, -20);
         ctx.lineTo(80, -20);
-        ctx.quadraticCurveTo(120, -20, 140, 0); // 선수 모양
+        ctx.quadraticCurveTo(120, -20, 140, 0);
         ctx.quadraticCurveTo(120, 20, 80, 20);
         ctx.lineTo(-120, 20);
         ctx.closePath();
@@ -172,23 +162,21 @@
         ctx.strokeStyle = "#666";
         ctx.stroke();
 
-        // 적재된 컨테이너 표현 (알록달록 블록)
+        // 컨테이너
         const colors = ['#b33', '#33b', '#383', '#d82', '#555'];
-        for(let i=0; i<8; i++) {
+        for (let i = 0; i < 8; i++) {
             ctx.fillStyle = colors[i % colors.length];
             ctx.fillRect(-110 + (i * 28), -16, 24, 32);
         }
 
-        // 3. 유체역학 벡터 그리기 (선체 상대 좌표 기준)
+        // 유체역학 벡터
         if (bankForce > 2) {
-            // 선수 Cushion (벽에서 밀어냄 -> 상향 벡터)
-            drawArrow(120, 0, bankForce * 3, -Math.PI/2, "#f33", 3);
-            // 선미 Suction (벽으로 빨려감 -> 하향 벡터)
-            drawArrow(-100, 0, bankForce * 4.5, Math.PI/2, "#3af", 3);
+            drawArrow(120, 0, bankForce * 3, -Math.PI / 2, "#f33", 3);
+            drawArrow(-100, 0, bankForce * 4.5, Math.PI / 2, "#3af", 3);
         }
 
-        // 스쿼트 가라앉음 표시 (선체 중앙에 텍스트 및 하향 화살표)
-        if(speed > 5) {
+        // 스쿼트 표시
+        if (speed > 5) {
             ctx.fillStyle = "#f0f";
             ctx.font = "bold 11px Arial";
             ctx.fillText(`Squat: -${squat.toFixed(2)}m`, -30, 3);
@@ -196,20 +184,18 @@
 
         ctx.restore();
 
-        // 4. 외력 벡터 (사풍 - 위에서 아래로 부는 바람)
+        // 풍압 벡터
         if (wind > 0) {
-            for(let i=0; i<3; i++) {
-                drawArrow(shipX - 50 + (i*100), 55, wind * 0.8, Math.PI/2, "#fa0", 2);
+            for (let i = 0; i < 3; i++) {
+                drawArrow(shipX - 50 + (i * 100), 55, wind * 0.8, Math.PI / 2, "#fa0", 2);
             }
         }
     }
 
-    // 이벤트 리스너 등록
     spdSlider.addEventListener('input', updateSimulation);
     distSlider.addEventListener('input', updateSimulation);
     windSlider.addEventListener('input', updateSimulation);
 
-    // 초기 실행
     updateSimulation();
 </script>
 
