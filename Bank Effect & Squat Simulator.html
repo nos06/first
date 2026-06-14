@@ -1,248 +1,337 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>Bank Effect & Squat Simulator</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #1e1e24; color: #fff; margin: 20px; }
-        .container { max-width: 900px; margin: 0 auto; background: #2a2a35; padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-        h1 { text-align: center; color: #4af; margin: 0 0 4px; }
-        .subtitle { text-align: center; color: #aaa; font-size: 14px; margin-bottom: 20px; }
-        .control-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 16px; background: #343444; padding: 15px; border-radius: 8px; }
-        .control-group { display: flex; flex-direction: column; gap: 5px; }
-        .control-group label { font-size: 12px; color: #bbb; }
-        .control-group .val { font-size: 20px; font-weight: bold; color: #4af; }
-        .control-group .unit { font-size: 11px; color: #888; }
-        input[type=range] { width: 100%; cursor: pointer; }
-        .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
-        .metric-card { background: #222; border-radius: 6px; padding: 10px; text-align: center; }
-        .metric-card .mlabel { font-size: 11px; color: #888; margin-bottom: 4px; }
-        .metric-card .mval { font-size: 16px; font-weight: bold; }
-        .status-box { padding: 12px 16px; border-radius: 6px; border-left: 5px solid; margin-bottom: 14px; font-size: 14px; font-weight: bold; }
-        .status-CRITICAL { border-left-color: #f33; background: #2a1515; color: #f77; }
-        .status-WARNING  { border-left-color: #f90; background: #2a2010; color: #fb6; }
-        .status-STABLE   { border-left-color: #3c3; background: #152a15; color: #7d7; }
-        canvas { display: block; width: 100%; border-radius: 6px; border: 1px solid #333; background: #0d1f33; }
-        .legend { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 10px; }
-        .legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #aaa; }
-        .legend-dot { width: 20px; height: 3px; border-radius: 1px; }
-    </style>
+<meta charset="UTF-8">
+<title>Advanced Bank Effect Simulator</title>
+
+<style>
+body{
+    background:#1e1e24;
+    color:white;
+    font-family:Arial;
+    margin:20px;
+}
+.container{
+    max-width:1100px;
+    margin:auto;
+    background:#2a2a35;
+    padding:20px;
+    border-radius:10px;
+}
+.control-panel{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:15px;
+}
+.control-group{
+    display:flex;
+    flex-direction:column;
+}
+canvas{
+    background:#132237;
+    border:2px solid #444;
+    border-radius:8px;
+    margin-top:20px;
+}
+.status-box{
+    margin-top:15px;
+    padding:15px;
+    font-weight:bold;
+    text-align:center;
+    border-left:6px solid #3c3;
+    background:#222;
+}
+.critical{
+    color:#ff4444;
+    border-left-color:#ff4444;
+}
+.warning{
+    color:#ffaa33;
+    border-left-color:#ffaa33;
+}
+.stable{
+    color:#44ff66;
+    border-left-color:#44ff66;
+}
+</style>
 </head>
+
 <body>
+
 <div class="container">
-    <h1>Bank Effect & Squat Simulator</h1>
-    <div class="subtitle">항해학 관점의 수로 유체역학 시뮬레이터 (에버기븐호 좌초 분석용)</div>
 
-    <div class="control-panel">
-        <div class="control-group">
-            <label>선박 속력 (Speed)</label>
-            <div><span class="val" id="spd-v">13.0</span> <span class="unit">kts</span></div>
-            <input type="range" id="spd" min="5" max="17" step="0.5" value="13">
-        </div>
-        <div class="control-group">
-            <label>측벽과의 거리 (Distance to Bank)</label>
-            <div><span class="val" id="dist-v">30</span> <span class="unit">m</span></div>
-            <input type="range" id="dist" min="15" max="90" step="1" value="30">
-        </div>
-        <div class="control-group">
-            <label>외력 - 사풍 (Cross Wind)</label>
-            <div><span class="val" id="wind-v">35</span> <span class="unit">kts</span></div>
-            <input type="range" id="wind" min="0" max="50" step="1" value="35">
-        </div>
-    </div>
+<h1>Advanced Bank Effect Simulator</h1>
 
-    <div class="metrics">
-        <div class="metric-card">
-            <div class="mlabel">Bank Cushion</div>
-            <div class="mval" id="m-cushion" style="color:#f55;">0.00</div>
-        </div>
-        <div class="metric-card">
-            <div class="mlabel">Bank Suction</div>
-            <div class="mval" id="m-suction" style="color:#4af;">0.00</div>
-        </div>
-        <div class="metric-card">
-            <div class="mlabel">Squat</div>
-            <div class="mval" id="m-squat" style="color:#f5a;">0.00 m</div>
-        </div>
-        <div class="metric-card">
-            <div class="mlabel">Wind Force</div>
-            <div class="mval" id="m-wind" style="color:#fa0;">0.00</div>
-        </div>
-    </div>
+<div class="control-panel">
 
-    <div class="status-box status-STABLE" id="status">분석 중...</div>
+<div class="control-group">
+<label>Speed
+<span id="spdVal">13</span> kts
+</label>
+<input id="speed" type="range" min="5" max="18" step="0.5" value="13">
+</div>
 
-    <canvas id="cv" width="860" height="270"></canvas>
+<div class="control-group">
+<label>Channel Position
+<span id="posVal">50</span>
+</label>
+<input id="position" type="range" min="0" max="100" value="50">
+</div>
 
-    <div class="legend">
-        <div class="legend-item"><div class="legend-dot" style="background:#f44;"></div> 선수 편향력 — Bank Cushion (거리↓ 주, 속도↑ 보조)</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#4af;"></div> 선미 흡입력 — Bank Suction (속도↑ 주, 거리↓ 보조)</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#fa0;"></div> 풍압력 — Wind Force (독립 외력)</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#f5a;"></div> 스쿼트 침하량 — Squat (속도² 비례)</div>
-    </div>
+<div class="control-group">
+<label>Cross Wind
+<span id="windVal">35</span> kts
+</label>
+<input id="wind" type="range" min="0" max="60" value="35">
+</div>
+
+<div class="control-group">
+<label>Rudder
+<span id="rudVal">0</span>°
+</label>
+<input id="rudder" type="range" min="-35" max="35" value="0">
+</div>
+
+<div class="control-group">
+<label>Water Depth
+<span id="depthVal">20</span> m
+</label>
+<input id="depth" type="range" min="12" max="35" value="20">
+</div>
+
+</div>
+
+<div id="status" class="status-box stable">
+Analyzing...
+</div>
+
+<canvas id="simCanvas" width="1000" height="350"></canvas>
+
 </div>
 
 <script>
-    const cv = document.getElementById('cv');
-    const ctx = cv.getContext('2d');
-    const W = cv.width, H = cv.height;
 
-    function arrow(x, y, len, ang, col, lw) {
-        if (len < 3) return;
-        ctx.save();
-        ctx.strokeStyle = col; ctx.fillStyle = col; ctx.lineWidth = lw || 2.5;
-        ctx.translate(x, y); ctx.rotate(ang);
-        ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(len,0); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(len,0); ctx.lineTo(len-9,-5); ctx.lineTo(len-9,5); ctx.fill();
-        ctx.restore();
+const canvas=document.getElementById("simCanvas");
+const ctx=canvas.getContext("2d");
+
+const speed=document.getElementById("speed");
+const position=document.getElementById("position");
+const wind=document.getElementById("wind");
+const rudder=document.getElementById("rudder");
+const depth=document.getElementById("depth");
+
+const status=document.getElementById("status");
+
+function drawArrow(x,y,len,angle,color){
+
+    ctx.save();
+
+    ctx.translate(x,y);
+    ctx.rotate(angle);
+
+    ctx.strokeStyle=color;
+    ctx.fillStyle=color;
+    ctx.lineWidth=3;
+
+    ctx.beginPath();
+    ctx.moveTo(0,0);
+    ctx.lineTo(len,0);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(len,0);
+    ctx.lineTo(len-10,-5);
+    ctx.lineTo(len-10,5);
+    ctx.fill();
+
+    ctx.restore();
+}
+
+function update(){
+
+    let spd=parseFloat(speed.value);
+    let pos=parseFloat(position.value);
+    let wnd=parseFloat(wind.value);
+    let rud=parseFloat(rudder.value);
+    let dep=parseFloat(depth.value);
+
+    document.getElementById("spdVal").innerText=spd;
+    document.getElementById("posVal").innerText=pos;
+    document.getElementById("windVal").innerText=wnd;
+    document.getElementById("rudVal").innerText=rud;
+    document.getElementById("depthVal").innerText=dep;
+
+    let northDistance=Math.max(pos,5);
+    let southDistance=Math.max(100-pos,5);
+
+    let northEffect=(spd*spd)/(northDistance**1.5);
+    let southEffect=(spd*spd)/(southDistance**1.5);
+
+    let bankMoment=(northEffect-southEffect)*6;
+
+    let windMoment=(wnd*wnd)*0.03;
+
+    let rudderMoment=rud*0.5;
+
+    let squat=((spd*0.514)**2)/(9.81)*(20/dep);
+
+    let ukc=dep-squat;
+
+    let totalMoment=
+        bankMoment+
+        windMoment-
+        rudderMoment;
+
+    let risk=Math.abs(totalMoment);
+
+    let state="STABLE";
+    let cls="stable";
+
+    if(risk>25 || ukc<1){
+        state="CRITICAL";
+        cls="critical";
+    }
+    else if(risk>12 || ukc<2){
+        state="WARNING";
+        cls="warning";
     }
 
-    function update() {
-        const spd  = parseFloat(document.getElementById('spd').value);
-        const dst  = parseFloat(document.getElementById('dist').value);
-        const wnd  = parseFloat(document.getElementById('wind').value);
+    status.className="status-box "+cls;
 
-        document.getElementById('spd-v').textContent  = spd.toFixed(1);
-        document.getElementById('dist-v').textContent = dst;
-        document.getElementById('wind-v').textContent = wnd;
+    status.innerHTML=
+        state+
+        " | Bank="+bankMoment.toFixed(1)+
+        " | Wind="+windMoment.toFixed(1)+
+        " | Squat="+squat.toFixed(2)+"m"+
+        " | UKC="+ukc.toFixed(2)+"m";
 
-        const spdMs = spd * 0.5144;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
 
-        // Squat: 속도²에만 비례 (Cb=0.85, 벽과 무관)
-        const squat = parseFloat((0.85 * spdMs * spdMs / 19.6).toFixed(2));
+    ctx.fillStyle="#c2a679";
+    ctx.fillRect(0,0,canvas.width,50);
+    ctx.fillRect(0,300,canvas.width,50);
 
-        // Bank Cushion: 거리↓ 가 주 변수 (거리² 반비례), 속도↑ 보조
-        const cushion = parseFloat(((spd * spd) / (dst * dst) * 120).toFixed(2));
+    ctx.strokeStyle="rgba(255,255,255,.3)";
+    ctx.setLineDash([10,10]);
 
-        // Bank Suction: 속도↑ 가 주 변수 (속도² 비례), 거리↓ 보조
-        const suction = parseFloat(((spd * spd) / Math.sqrt(dst) * 0.8).toFixed(2));
+    ctx.beginPath();
+    ctx.moveTo(0,175);
+    ctx.lineTo(canvas.width,175);
+    ctx.stroke();
 
-        // Wind: 독립 외력
-        const windF = parseFloat((wnd * wnd * 0.04).toFixed(2));
+    ctx.setLineDash([]);
 
-        // 복합 위험 지수: 속도 AND 거리 둘 다 나빠야 올라감
-        const risk = (spd * spd) / (dst * dst) * spd;
+    let shipX=500;
 
-        document.getElementById('m-cushion').textContent = cushion.toFixed(2);
-        document.getElementById('m-suction').textContent = suction.toFixed(2);
-        document.getElementById('m-squat').textContent   = squat.toFixed(2) + ' m';
-        document.getElementById('m-wind').textContent    = windF.toFixed(2);
+    let shipY=50+(pos/100)*250;
 
-        const stEl = document.getElementById('status');
-        let stText, stCls;
+    let yaw=totalMoment*0.01;
 
-        if (risk > 180 || (cushion > 8 && suction > 60)) {
-            stText = `CRITICAL: Bank Effect 복합 임계점 초과 — 선미 흡입으로 편향 제어 불가 (Squat ${squat.toFixed(2)}m / Suction ${suction.toFixed(1)} / Cushion ${cushion.toFixed(1)})`;
-            stCls  = 'status-box status-CRITICAL';
-        } else if (risk > 60 || (cushion > 3 && suction > 25)) {
-            stText = `WARNING: 조종 성능 저하 — 속도 감속 및 BRM 즉각 실시 필요 (Squat ${squat.toFixed(2)}m)`;
-            stCls  = 'status-box status-WARNING';
-        } else {
-            stText = `STABLE: 안전 통항 범위 (Squat ${squat.toFixed(2)}m / Cushion ${cushion.toFixed(1)} / Suction ${suction.toFixed(1)})`;
-            stCls  = 'status-box status-STABLE';
-        }
-        stEl.textContent = stText;
-        stEl.className   = stCls;
+    ctx.save();
 
-        ctx.clearRect(0,0,W,H);
+    ctx.translate(shipX,shipY);
+    ctx.rotate(yaw);
 
-        // 수로 배경
-        ctx.fillStyle = '#0d1f33';
-        ctx.fillRect(0,0,W,H);
+    ctx.fillStyle="#333";
 
-        // 벽
-        ctx.fillStyle = '#8B6914';
-        ctx.fillRect(0,0,W,36);
-        ctx.fillStyle = '#7a5c10';
-        ctx.fillRect(0,H-36,W,36);
+    ctx.beginPath();
 
-        ctx.fillStyle = '#c8a030';
-        ctx.font = '11px Arial';
-        ctx.fillText('NORTH BANK', 8, 24);
-        ctx.fillText('SOUTH BANK (가까운 벽)', 8, H - 14);
+    ctx.moveTo(-120,-20);
+    ctx.lineTo(100,-20);
+    ctx.quadraticCurveTo(140,0,100,20);
+    ctx.lineTo(-120,20);
 
-        // 센터라인
-        ctx.strokeStyle = 'rgba(255,255,255,0.1)';
-        ctx.setLineDash([12,8]);
-        ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(0,H/2); ctx.lineTo(W,H/2); ctx.stroke();
-        ctx.setLineDash([]);
+    ctx.closePath();
+    ctx.fill();
 
-        // 선박 Y: 남측(하단) 벽에서 거리에 비례
-        const minY = H - 36 - 28;
-        const maxY = 36 + 28;
-        const shipY = minY - ((dst - 15) / 75) * (minY - maxY);
-        const shipX = W / 2 - 80;
+    ctx.strokeStyle="#999";
+    ctx.stroke();
 
-        // Yaw: cushion(선수 밀림) + suction(선미 당김) 복합 → 연속값
-        const yaw = -Math.min((cushion * 0.004 + suction * 0.0008), 0.18);
+    if(Math.abs(bankMoment)>1){
 
-        ctx.save();
-        ctx.translate(shipX, shipY);
-        ctx.rotate(yaw);
+        let cushionDir=
+            bankMoment>0
+            ? Math.PI/2
+            : -Math.PI/2;
 
-        // 선체
-        ctx.fillStyle = '#2c2c3e';
-        ctx.beginPath();
-        ctx.moveTo(-125,-22); ctx.lineTo(75,-22);
-        ctx.quadraticCurveTo(125,-22,145,0);
-        ctx.quadraticCurveTo(125,22,75,22);
-        ctx.lineTo(-125,22);
-        ctx.closePath();
-        ctx.fill();
-        ctx.strokeStyle = '#555'; ctx.lineWidth = 1; ctx.stroke();
+        let suctionDir=
+            bankMoment>0
+            ? -Math.PI/2
+            : Math.PI/2;
 
-        // 컨테이너
-        const bcs = ['#b33333','#3355b3','#2d8a3e','#cc7700','#555588','#aa3377'];
-        for (let i = 0; i < 8; i++) {
-            ctx.fillStyle = bcs[i % bcs.length];
-            ctx.fillRect(-118 + i*29, -17, 25, 34);
-            ctx.strokeStyle = 'rgba(0,0,0,0.4)'; ctx.lineWidth = 0.5;
-            ctx.strokeRect(-118 + i*29, -17, 25, 34);
-        }
+        drawArrow(
+            120,
+            0,
+            Math.abs(bankMoment)*3,
+            cushionDir,
+            "#ff4444"
+        );
 
-        // Bank Cushion 벡터 (선수, 벽에서 밀려남 = 위쪽)
-        const cushLen = Math.min(cushion * 4, 85);
-        if (cushLen > 3) arrow(135, 0, cushLen, -Math.PI/2, '#f44', 3);
-
-        // Bank Suction 벡터 (선미, 벽으로 빨림 = 아래쪽)
-        const suctLen = Math.min(suction * 0.9, 95);
-        if (suctLen > 3) arrow(-115, 0, suctLen, Math.PI/2, '#4af', 3);
-
-        // Squat 표시
-        ctx.fillStyle = '#f5a';
-        ctx.font = 'bold 11px Arial';
-        ctx.fillText('Squat: -' + squat.toFixed(2) + 'm', -24, 3);
-
-        ctx.restore();
-
-        // 거리 표시선
-        const wallY = H - 36;
-        ctx.strokeStyle = 'rgba(255,255,100,0.4)';
-        ctx.setLineDash([4,4]);
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(shipX + 165, shipY + 22);
-        ctx.lineTo(shipX + 165, wallY);
-        ctx.stroke();
-        ctx.setLineDash([]);
-        ctx.fillStyle = 'rgba(255,255,100,0.85)';
-        ctx.font = '11px Arial';
-        ctx.fillText(dst + 'm', shipX + 170, (shipY + 22 + wallY) / 2 + 4);
-
-        // 풍압 벡터 (상단에서 하향)
-        if (wnd > 2) {
-            const wLen = Math.min(wnd * 1.0, 52);
-            for (let i = 0; i < 4; i++) {
-                arrow(shipX - 60 + i*60, 44, wLen, Math.PI/2, '#fa0', 2);
-            }
-        }
+        drawArrow(
+            -100,
+            0,
+            Math.abs(bankMoment)*4,
+            suctionDir,
+            "#44aaff"
+        );
     }
 
-    document.getElementById('spd').addEventListener('input', update);
-    document.getElementById('dist').addEventListener('input', update);
-    document.getElementById('wind').addEventListener('input', update);
-    update();
+    ctx.fillStyle="#ff44ff";
+    ctx.fillText(
+        "Squat -"+squat.toFixed(2)+"m",
+        -40,
+        0
+    );
+
+    ctx.restore();
+
+    if(wnd>0){
+
+        for(let i=0;i<3;i++){
+
+            drawArrow(
+                shipX-100+i*100,
+                70,
+                wnd,
+                Math.PI/2,
+                "#ffaa00"
+            );
+
+        }
+
+    }
+
+    if(
+        Math.abs(bankMoment)>18 &&
+        wnd>30 &&
+        spd>12
+    ){
+
+        ctx.fillStyle="#ff0000";
+        ctx.font="bold 26px Arial";
+
+        ctx.fillText(
+            "EVER GIVEN SCENARIO",
+            320,
+            170
+        );
+    }
+
+}
+
+[
+speed,
+position,
+wind,
+rudder,
+depth
+].forEach(
+x=>x.addEventListener("input",update)
+);
+
+update();
+
 </script>
+
 </body>
 </html>
